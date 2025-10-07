@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+    CssBaseline,
+    Container,
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    Box,
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PostList from './components/PostList';
+import PostDetails from './components/PostDetails';
+import CreatePost from './components/CreatePost';
+import EditPost from './components/EditPost';
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#556cd6',
+        },
+        secondary: {
+            main: '#19857b',
+        },
+    },
+});
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Router>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            <Button color="inherit" href="/">Bulletin Board</Button>
+                        </Typography>
+                        <Button color="inherit" href="/create">Create Post</Button>
+                    </Toolbar>
+                </AppBar>
+                <Container>
+                    <Box sx={{ my: 4 }}>
+                        <Routes>
+                            <Route path="/" element={<PostList />} />
+                            <Route path="/posts/:id" element={<PostDetails />} />
+                            <Route path="/create" element={<CreatePost />} />
+                            <Route path="/edit/:id" element={<EditPost />} />
+                        </Routes>
+                    </Box>
+                </Container>
+            </Router>
+        </ThemeProvider>
+    );
 }
 
-export default App
+export default App;
