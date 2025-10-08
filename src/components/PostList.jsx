@@ -5,14 +5,11 @@ import {
     Container,
     Typography,
     Grid,
-    Card,
-    CardContent,
-    CardActions,
-    Button,
     CircularProgress,
     Alert,
     Box
 } from '@mui/material';
+import PostCard from './PostCard';
 
 const PostList = () => {
     const [posts, setPosts] = useState([]);
@@ -22,7 +19,7 @@ const PostList = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await fetch('http://localhost:5001/api/posts');
+                const response = await fetch('/api/posts');
                 if (!response.ok) {
                     throw new Error('Failed to fetch posts');
                 }
@@ -57,25 +54,8 @@ const PostList = () => {
             </Typography>
             <Grid container spacing={3}>
                 {posts.map(post => (
-                    <Grid item xs={12} sm={6} md={4} key={post._id}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h5" component="div">
-                                    {post.title}
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    by {post.author}
-                                </Typography>
-                                <Typography variant="body2">
-                                    {post.content.substring(0, 100)}...
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small" component={Link} to={`/posts/${post._id}`}>
-                                    Read More
-                                </Button>
-                            </CardActions>
-                        </Card>
+                    <Grid item xs={12} key={post._id}>
+                        <PostCard post={post} />
                     </Grid>
                 ))}
             </Grid>
